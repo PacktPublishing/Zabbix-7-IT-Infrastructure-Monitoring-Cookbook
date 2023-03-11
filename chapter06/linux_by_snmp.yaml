@@ -1,0 +1,148 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-02-19T13:38:55Z'
+  groups:
+    -
+      uuid: 846977d1dfed4968bc5f8bdb363285bc
+      name: 'Templates/Operating systems'
+  templates:
+    -
+      uuid: 797488e3354a4f86ac0e78bd052c9f8c
+      template: 'Custom Linux by SNMP'
+      name: 'Custom Linux by SNMP'
+      templates:
+        -
+          name: 'Custom Linux uptime by SNMP'
+      groups:
+        -
+          name: 'Templates/Operating systems'
+      items:
+        -
+          uuid: a373886fd1df49a49a83903625612db4
+          name: 'System hostname'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.1.5.0
+          key: sysName
+          delay: 30m
+          trends: '0'
+          value_type: CHAR
+          tags:
+            -
+              tag: component
+              value: system
+          triggers:
+            -
+              uuid: 75f856f46d89458695aee01666df726d
+              expression: 'find(/Custom Linux by SNMP/sysName,,,"{$HOSTPREFIX}")=0'
+              name: 'Hostname does not contain prefix'
+              priority: INFO
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: notification
+            -
+              uuid: e35d8b3fbde249a0995c8bbd99db87e2
+              expression: 'find(/Custom Linux by SNMP/sysName,,,"{HOST.HOST}")=0'
+              name: 'Hostname does not match Zabbix hostname'
+              priority: INFO
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: notification
+            -
+              uuid: 0c6ca38fedeb4b48a0f93a2db43db5ef
+              expression: 'change(/Custom Linux by SNMP/sysName)=1'
+              name: 'Hostname has changed'
+              priority: INFO
+              manual_close: 'YES'
+              tags:
+                -
+                  tag: scope
+                  value: notification
+      discovery_rules:
+        -
+          uuid: 68a3d31e85af4effa69d223e0ba99577
+          name: 'Discover Network interfaces'
+          type: SNMP_AGENT
+          snmp_oid: 'discovery[{#IFNAME},.1.3.6.1.2.1.2.2.1.2]'
+          key: net.if.discovery
+          delay: 1h
+          lifetime: 0d
+          description: |
+            OID: 1.3.6.1.2.1.2.2.1.2
+            MIB: IF-MIB
+            
+            Discovery of Network interfaces on linux host systems
+          item_prototypes:
+            -
+              uuid: 4fe41ddf2c9243a98e9775cbeba6a547
+              name: 'Interface {#IFNAME}: Admin status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.2.1.2.2.1.7.{#SNMPINDEX}'
+              key: 'ifAdminStatus.[{#SNMPINDEX}]'
+              valuemap:
+                name: 'IF-MIB:ifOperStatus'
+              tags:
+                -
+                  tag: interface
+                  value: '{#IFNAME}'
+            -
+              uuid: fe9ee1c0e52f494ba37343f4c921c25d
+              name: 'Interface {#IFNAME}: Operational status'
+              type: SNMP_AGENT
+              snmp_oid: '.1.3.6.1.2.1.2.2.1.8.{#SNMPINDEX}'
+              key: 'ifOperStatus.[{#SNMPINDEX}]'
+              valuemap:
+                name: 'IF-MIB:ifOperStatus'
+              tags:
+                -
+                  tag: interface
+                  value: '{#IFNAME}'
+          trigger_prototypes:
+            -
+              uuid: 4f644548d4c34a2692cc0ab9f443d3b3
+              expression: |
+                last(/Custom Linux by SNMP/ifOperStatus.[{#SNMPINDEX}])=0
+                and
+                last(/Custom Linux by SNMP/ifAdminStatus.[{#SNMPINDEX}])=1
+              name: 'Interface {#IFNAME}: Link is down'
+              priority: WARNING
+              tags:
+                -
+                  tag: scope
+                  value: availability
+      tags:
+        -
+          tag: class
+          value: os
+        -
+          tag: target
+          value: linux
+      valuemaps:
+        -
+          uuid: e68392ce44a84fdf8a05b11dc82f58ad
+          name: 'IF-MIB:ifOperStatus'
+          mappings:
+            -
+              value: '1'
+              newvalue: up
+            -
+              value: '2'
+              newvalue: down
+            -
+              value: '3'
+              newvalue: testing
+            -
+              value: '4'
+              newvalue: unknown
+            -
+              value: '5'
+              newvalue: dormant
+            -
+              value: '6'
+              newvalue: notPresent
+            -
+              value: '7'
+              newvalue: lowerLayerDown

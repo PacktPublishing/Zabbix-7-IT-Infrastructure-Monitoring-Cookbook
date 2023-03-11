@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2020-12-22T10:14:27Z</date>
+    <groups>
+        <group>
+            <name>Templates/AWS</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template AWS RDS discovery</template>
+            <name>Template AWS RDS discovery</name>
+            <groups>
+                <group>
+                    <name>Templates/AWS</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Metrics</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Discover Metrics</name>
+                    <key>rds.metrics.discovery[{HOST.HOST}]</key>
+                    <delay>1d</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Metric: {#METRIC}</name>
+                            <type>EXTERNAL</type>
+                            <key>aws_script.sh[{HOST.HOST},{#METRIC}]</key>
+                            <delay>5m</delay>
+                            <value_type>FLOAT</value_type>
+                            <applications>
+                                <application>
+                                    <name>Metrics</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.Datapoints..Average</params>
+                                    <error_handler>DISCARD_VALUE</error_handler>
+                                </step>
+                                <step>
+                                    <type>TRIM</type>
+                                    <params>[]</params>
+                                </step>
+                            </preprocessing>
+                        </item_prototype>
+                    </item_prototypes>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#METRIC}</lld_macro>
+                            <path>$.['MetricName']</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>

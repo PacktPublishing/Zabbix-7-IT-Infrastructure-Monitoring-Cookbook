@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2020-12-22T10:13:53Z</date>
+    <groups>
+        <group>
+            <name>Azure</name>
+        </group>
+    </groups>
+    <hosts>
+        <host>
+            <host>Discover Azure DBs</host>
+            <name>Discover Azure DBs</name>
+            <groups>
+                <group>
+                    <name>Azure</name>
+                </group>
+            </groups>
+            <interfaces>
+                <interface>
+                    <interface_ref>if1</interface_ref>
+                </interface>
+            </interfaces>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Discover Azure DBs</name>
+                    <key>azure.db.discovery</key>
+                    <delay>1d</delay>
+                    <filter>
+                        <conditions>
+                            <condition>
+                                <macro>{#NAME}</macro>
+                                <value>(_Gen\d+_)</value>
+                                <operator>NOT_MATCHES_REGEX</operator>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
+                    </filter>
+                    <interface_ref>if1</interface_ref>
+                    <host_prototypes>
+                        <host_prototype>
+                            <host>{#NAME}</host>
+                            <name>{#NAME}</name>
+                            <inventory_mode>AUTOMATIC</inventory_mode>
+                            <group_links>
+                                <group_link>
+                                    <group>
+                                        <name>Azure</name>
+                                    </group>
+                                </group_link>
+                            </group_links>
+                            <templates>
+                                <template>
+                                    <name>Template Azure DB</name>
+                                </template>
+                            </templates>
+                            <macros>
+                                <macro>
+                                    <macro>{$ID}</macro>
+                                    <value>{#ID}</value>
+                                </macro>
+                            </macros>
+                        </host_prototype>
+                    </host_prototypes>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#ID}</lld_macro>
+                            <path>$.['id']</path>
+                        </lld_macro_path>
+                        <lld_macro_path>
+                            <lld_macro>{#NAME}</lld_macro>
+                            <path>$.['name']</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+            </discovery_rules>
+            <inventory_mode>AUTOMATIC</inventory_mode>
+        </host>
+    </hosts>
+</zabbix_export>

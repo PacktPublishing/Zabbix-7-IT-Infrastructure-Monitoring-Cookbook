@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2020-12-22T10:13:34Z</date>
+    <groups>
+        <group>
+            <name>AWS</name>
+        </group>
+    </groups>
+    <hosts>
+        <host>
+            <host>AWS Bucket discovery</host>
+            <name>AWS Bucket discovery</name>
+            <groups>
+                <group>
+                    <name>AWS</name>
+                </group>
+            </groups>
+            <interfaces>
+                <interface>
+                    <interface_ref>if1</interface_ref>
+                </interface>
+            </interfaces>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Bucket discovery</name>
+                    <key>bucket.discovery</key>
+                    <delay>1d</delay>
+                    <interface_ref>if1</interface_ref>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Bucket Contents</name>
+                            <type>DEPENDENT</type>
+                            <key>bucket.contents[{#NAME}]</key>
+                            <delay>0</delay>
+                            <units>!entities</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>Bucket: {#NAME}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.[1]</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>bucket.get[{#NAME}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>{#NAME}</name>
+                            <key>bucket.get[{#NAME}]</key>
+                            <delay>5m</delay>
+                            <history>0</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>Bucket: {#NAME}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <interface_ref>if1</interface_ref>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Bucket Size</name>
+                            <type>DEPENDENT</type>
+                            <key>bucket.size[{#NAME}]</key>
+                            <delay>0</delay>
+                            <units>Bytes</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>Bucket: {#NAME}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.[0]</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>bucket.get[{#NAME}]</key>
+                            </master_item>
+                        </item_prototype>
+                    </item_prototypes>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#NAME}</lld_macro>
+                            <path>$.Name</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+            </discovery_rules>
+            <inventory_mode>AUTOMATIC</inventory_mode>
+        </host>
+        <host>
+            <host>AWS RDS discovery</host>
+            <name>AWS RDS discovery</name>
+            <groups>
+                <group>
+                    <name>AWS</name>
+                </group>
+            </groups>
+            <interfaces>
+                <interface>
+                    <interface_ref>if1</interface_ref>
+                </interface>
+            </interfaces>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Instance discovery</name>
+                    <key>rds.discovery</key>
+                    <delay>1d</delay>
+                    <interface_ref>if1</interface_ref>
+                    <host_prototypes>
+                        <host_prototype>
+                            <host>{#NAME}</host>
+                            <name>{#NAME}</name>
+                            <inventory_mode>AUTOMATIC</inventory_mode>
+                            <group_links>
+                                <group_link>
+                                    <group>
+                                        <name>AWS</name>
+                                    </group>
+                                </group_link>
+                            </group_links>
+                            <templates>
+                                <template>
+                                    <name>Template AWS RDS discovery</name>
+                                </template>
+                            </templates>
+                        </host_prototype>
+                    </host_prototypes>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#NAME}</lld_macro>
+                            <path>$.DBInstanceIdentifier</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+            </discovery_rules>
+            <inventory_mode>AUTOMATIC</inventory_mode>
+        </host>
+    </hosts>
+</zabbix_export>

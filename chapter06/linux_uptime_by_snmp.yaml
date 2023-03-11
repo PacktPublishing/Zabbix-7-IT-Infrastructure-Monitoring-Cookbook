@@ -1,0 +1,31 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-02-19T13:38:57Z'
+  groups:
+    -
+      uuid: 57b7ae836ca64446ba2c296389c009b7
+      name: Templates/Modules
+  templates:
+    -
+      uuid: 9319a1e9017d499db9f3b926dbd9a885
+      template: 'Custom Linux uptime by SNMP'
+      name: 'Custom Linux uptime by SNMP'
+      description: |
+        This template is created to monitor Linux host uptime from Zabbix 6.0 with SNMP. In Zabbix 6.0 we can use SNMP versions on a host level and thus this template is suited for all SNMP versions. 
+        
+        We've created this template as an example in our book and it is not suited for sharing or active monitoring.
+      groups:
+        -
+          name: Templates/Modules
+      items:
+        -
+          uuid: 866c0eeb5bc840bfb71943c53e9e61bf
+          name: 'System Uptime'
+          type: SNMP_AGENT
+          snmp_oid: .1.3.6.1.2.1.25.1.1.0
+          key: sysUptime
+          units: uptime
+          tags:
+            -
+              tag: component
+              value: system
