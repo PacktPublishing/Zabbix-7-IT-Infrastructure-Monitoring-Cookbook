@@ -13,4 +13,4 @@ api_token = "PUT_YOUR_TOKEN_HERE"
 
 #Generate hosts
 zabbix_hosts = get_hosts(api_token,url)
-generate_host_file(zabbix_hosts,"/home/results")
+generate_host_file(zabbix_hosts,"/home/zabbix/results")
