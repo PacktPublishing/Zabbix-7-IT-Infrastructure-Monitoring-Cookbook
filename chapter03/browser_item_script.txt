@@ -2,7 +2,12 @@ var browser, result;
 browser = new Browser(Browser.chromeOptions());
 
 try {
-    browser.navigate("http://192.168.2.152/index.php");
+    var params = JSON.parse(value); // Parse the JSON string passed from Zabbix
+    var webUrl = params.webUrl;
+    var username = params.username;
+    var password = params.password;
+
+    browser.navigate(webUrl);
     browser.collectPerfEntries("open page");
 
     // Find and fill username
@@ -10,14 +15,14 @@ try {
     if (el === null) {
         throw Error("cannot find name input field");
     }
-    el.sendKeys("Admin");
+    el.sendKeys(username);
 
     // Find and fill password
     el = browser.findElement("xpath", "//input[@id='password']");
     if (el === null) {
         throw Error("cannot find password input field");
     }
-    el.sendKeys("zabbix");
+    el.sendKeys(password);
 
     // Find and click the login button
     el = browser.findElement("xpath", "//button[@id='enter']");
