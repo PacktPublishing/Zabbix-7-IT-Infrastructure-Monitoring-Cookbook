@@ -1,0 +1,74 @@
+var browser, result;
+browser = new Browser(Browser.chromeOptions());
+
+try {
+    browser.navigate("http://192.168.2.152/index.php");
+    browser.collectPerfEntries("open page");
+
+    // Find and fill username
+    var el = browser.findElement("xpath", "//input[@id='name']");
+    if (el === null) {
+        throw Error("cannot find name input field");
+    }
+    el.sendKeys("Admin");
+
+    // Find and fill password
+    el = browser.findElement("xpath", "//input[@id='password']");
+    if (el === null) {
+        throw Error("cannot find password input field");
+    }
+    el.sendKeys("zabbix");
+
+    // Find and click the login button
+    el = browser.findElement("xpath", "//button[@id='enter']");
+    if (el === null) {
+        throw Error("cannot find login button");
+    }
+    el.click();
+
+    // Collect performance data after login
+    browser.collectPerfEntries("login");
+
+    // Navigate to Reports -> System information
+    el = browser.findElement("xpath", "//a[contains(text(),'Reports')]");
+    if (el === null) {
+        throw Error("cannot find Reports menu");
+    }
+    el.click();
+
+    el = browser.findElement("xpath", "//a[contains(text(),'System information')]");
+    if (el === null) {
+        throw Error("cannot find System information submenu");
+    }
+    el.click();
+
+    // Find the required server performance row and get the value
+    el = browser.findElement("xpath", "//tr[th[contains(text(), 'Required server performance, new values per second')]]/td[1]");
+    if (el === null) {
+        throw Error("cannot find required server performance row");
+    }
+    var performanceValue = el.getText();
+
+    // Find and click the logout button
+    el = browser.findElement("xpath", "//a[contains(text(),'Sign out')]");
+    if (el === null) {
+        throw Error("cannot find logout button");
+    }
+    el.click();
+
+    // Collect performance data after logout
+    browser.collectPerfEntries("logout");
+
+    // Set result with the performance value
+    result = browser.getResult();
+    result.performanceValue = performanceValue;
+
+} catch (err) {
+    if (!(err instanceof BrowserError)) {
+        browser.setError(err.message);
+    }
+    result = browser.getResult();
+    result.error.screenshot = browser.getScreenshot();
+} finally {
+    return JSON.stringify(result);
+}
