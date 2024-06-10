@@ -48,11 +48,28 @@ try {
     el.click();
 
     // Find the required server performance row and get the value
-    el = browser.findElement("xpath", "//tr[th[contains(text(), 'Required server performance, new values per second')]]/td[1]");
+    nvps = browser.findElement("xpath", "//tr[th[contains(text(), 'Required server performance, new values per second')]]/td[1]");
+    totalHosts = browser.findElement("xpath", "//tr[th[contains(text(), 'Number of hosts (enabled/disabled)')]]/td[1]");
+    enabledHosts = browser.findElement("xpath", "//tr[th[contains(text(), 'Number of hosts (enabled/disabled)')]]/td[2]/span[1]");
+    disabledHosts = browser.findElement("xpath", "//tr[th[contains(text(), 'Number of hosts (enabled/disabled)')]]/td[2]/span[2]");
+    numberOfTemplates = browser.findElement("xpath", "//tr[th[contains(text(), 'Number of templates')]]/td[1]");
+    totalItems = browser.findElement("xpath", "//tr[th/span[contains(text(), 'Number of items (enabled/disabled/not supported)')]]/td[1]");
+
+    enabledItems = browser.findElement("xpath", "//tr[th/span[contains(text(), 'Number of items (enabled/disabled/not supported)')]]/td[2]/span[1]");
+    disabledItems = browser.findElement("xpath", "//tr[th/span[contains(text(), 'Number of items (enabled/disabled/not supported)')]]/td[2]/span[2]");
+    nsItems = browser.findElement("xpath", "//tr[th/span[contains(text(), 'Number of items (enabled/disabled/not supported)')]]/td[2]/span[3]");
     if (el === null) {
         throw Error("cannot find required server performance row");
     }
-    var performanceValue = el.getText();
+    var performanceValue = nvps.getText();
+    var totalHosts = totalHosts.getText();
+    var enabledHosts = enabledHosts.getText();
+    var disabledHosts = disabledHosts.getText();
+    var numberOfTemplates = numberOfTemplates.getText();
+    var totalItems = totalItems.getText();
+    var enabledItems = enabledItems.getText();
+    var disabledItems = disabledItems.getText();
+    var nsItems = nsItems.getText();
 
     // Find and click the logout button
     el = browser.findElement("xpath", "//a[contains(text(),'Sign out')]");
@@ -67,6 +84,14 @@ try {
     // Set result with the performance value
     result = browser.getResult();
     result.performanceValue = performanceValue;
+    result.totalHosts = totalHosts;
+    result.enabledHosts = enabledHosts;
+    result.disabledHosts = disabledHosts;
+    result.numberOfTemplates = numberOfTemplates;
+    result.totalItems = totalItems;
+    result.enabledItems = enabledItems;
+    result.disabledItems = disabledItems;
+    result.nsItems = nsItems;
 
 } catch (err) {
     if (!(err instanceof BrowserError)) {
