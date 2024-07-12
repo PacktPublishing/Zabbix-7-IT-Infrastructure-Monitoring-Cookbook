@@ -54,12 +54,11 @@ With the following software and hardware list you can run all code files present
 * Security Monitoring with Wazuh [[Packt]](https://www.packtpub.com/en-us/product/security-monitoring-with-wazuh-9781837632152) [[Amazon]](https://www.amazon.com/dp/1837632154)
 
 ## Get to Know the Authors
-**Nathan Liefting**
-Nathan Liefting, also known as Larcorba, is an IT consultant, trainer, and content creator (artist) with over 6 years of professional experience in IT. His experience ranges from managing networks running EVPN/VXLAN to Linux environments and programming. Nathan began working with Zabbix in 2016 when Zabbix 2 was still in use and Zabbix 3 had just been released.
+**Nathan Liefting**, also known as Larcorba, is an IT consultant, trainer, and content creator (artist) with over 6 years of professional experience in IT. His experience ranges from managing networks running EVPN/VXLAN to Linux environments and programming. Nathan began working with Zabbix in 2016 when Zabbix 2 was still in use and Zabbix 3 had just been released.
 He currently works for Opensource ICT Solutions BV in the Netherlands as a Zabbix trainer and consultant, designing and building professional Zabbix environments and Zabbix components for some of the biggest companies worldwide.
 
 **Brian van Baekel**
-Brian van Baekel discovered the power of Zabbix early in his career as a network engineer. Since then, he has been working with Zabbix in various large environments, earning his official Zabbix Certified Trainer certification in early 2017.
+ discovered the power of Zabbix early in his career as a network engineer. Since then, he has been working with Zabbix in various large environments, earning his official Zabbix Certified Trainer certification in early 2017.
 In 2018, Brian founded Opensource ICT Solutions BV in the Netherlands and Opensource ICT Solutions LLC in the US, focusing on building Zabbix environments globally. In 2021, the business expanded further with a subsidiary in the United Kingdom, dedicated entirely to the Zabbix product. All companies provide support, training, and consultancy services, ensuring Brian works with the Zabbix product around the clock.
 Fun fact: Even his cat is named Zabbix.
 
