@@ -1,3 +1,6 @@
+
+<b><p align='center'>[![Packt Sale](https://static.packt-cdn.com/assets/images/humble+bundle/5.png)](https://www.humblebundle.com/books/networking-mastery-packt-books?utm_medium=affiliate&utm_campaign=&utm_term=472505a3-5e1b-ea11-a812-00224801bc51&utm_content=)</p></b> 
+
 # Zabbix 7 IT Infrastructure Monitoring Cookbook
 <a href="https://www.packtpub.com/product/zabbix-7-it-infrastructure-monitoring-cookbook-third-edition/9781801078320?utm_source=github&utm_medium=repository&utm_campaign=9781803246918"><img src="https://static.packt-cdn.com/products/9781801078320/cover/smaller" alt="Zabbix 7 IT Infrastructure Monitoring Cookbook" height="256px" align="right"></a>
 
